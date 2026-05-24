@@ -1,44 +1,116 @@
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIAr</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIAr</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <header>
-    <h1>LIAr</h1>
-    <nav id="cabecalho">
-        <ul class="lista-categorias">
-            <li>Histórico</li>
-            <li>Sair</li>
-        </ul>
-    </nav>
+  <div class="header-left">
+    <button class="btn-voltar" type="button" id="btn-voltar-header">←</button>
+    <h1 class="logo">LIAr</h1>
+  </div>
+  <nav class="header-right">
+    <button type="button" class="btn-header">Histórico</button>
+    <button type="button" class="btn-header" onclick="logout()">Sair</button>
+  </nav>
 </header>
-<body>
-    <canvas id="bg-canvas"></canvas>
-    <section id="login" class="screen active">
-        <h1>LIAr</h1>
-        <h2>Entrar</h2>
-        <label for="email"></label>
-        <input type="email" id="email"  name="email" placeholder="E-mail">
-        <label for="password"></label>
-        <input type="password" id="senha"  name="password" placeholder="Senha">
-        <button id="entrar" type="submit" class="button-principal" onclick="navigateTo('selecionar-imagem')">Entrar</button>
-        <a id="criar-conta">Ainda não tem conta? Crie sua conta</a>
-    </section>
-    <section id="selecionar-imagem" class="screen">
-        <h1>Selecione uma imagem</h1>
-        <h2 id="escrita-imagem">Escolha a imagem que você quer transformar em vídeo</h2>
-        <div class="upload-area" id="uploadArea">
-            <span class="upload-icon">⬆</span>
-            <p class="upload-text">Clique para fazer upload</p>
-            <p class="upload-hint">PNG, JPG até 10MB</p>
-            <input type="file" id="fileInput" accept="image/png, image/jpeg" hidden>
-        </div>
-        <button id="button-continuar" type="button" class="button-principal">Continuar</button>
-    </section>
-    <section id="prompt" class="screen"></section>
 
-<script src="script.js" defer></script>   
+<body>
+  <canvas id="bg-canvas"></canvas>
+  <section id="login" class="screen active">
+    <h1>LIAr</h1>
+    <h2>Entrar</h2>
+    <label for="email"></label>
+    <input type="email" id="email" name="email" placeholder="E-mail">
+    <label for="password"></label>
+    <input type="password" id="senha" name="password" placeholder="Senha">
+    <button id="entrar" type="submit" class="button-principal" onclick="navigateTo('selecionar-imagem')">Entrar</button>
+    <a id="criar-conta">Ainda não tem conta? Crie sua conta</a>
+  </section>
+  <section id="selecionar-imagem" class="screen">
+    <h1>Selecione uma imagem</h1>
+    <h2 id="escrita-imagem">Escolha a imagem que você quer transformar em vídeo</h2>
+    <div class="upload-area" id="uploadArea">
+      <span class="upload-icon">⬆</span>
+      <p class="upload-text">Clique para fazer upload</p>
+      <p class="upload-hint">PNG, JPG até 10MB</p>
+      <input type="file" id="fileInput" accept="image/png, image/jpeg" hidden>
+    </div>
+    <button id="button-continuar" type="button" class="button-principal hidden"
+      onclick="navigateTo('prompt')">Continuar</button>
+  </section>
+  <section id="prompt" class="screen">
+    <h1>Descreva o Vídeo</h1>
+    <h2 id="escrita-prompt-video">O que você quer que aconteça neste vídeo?</h2>
+    <img id="prompt-preview" src="" alt="Imagem selecionada">
+    <div class="textarea-wrapper">
+      <textarea id="prompt-input" maxlength="500"
+        placeholder="Ex: A pessoa caminhando em direção à câmera sorrindo..."></textarea>
+      <span id="char-count">0/500 caracteres</span>
+    </div>
+    <button type="button" id="button-config-video" class="button-principal disabled" disabled
+      onclick="navigateTo('configuracoes-video')">Continuar</button>
+  </section>
+  <section id="configuracoes-video" class="screen">
+    <h1>Configurações do Vídeo</h1>
+    <h2 id="escrita-gerar-video">Ajuste as configurações para gerar seu vídeo</h2>
+
+    <div class="config-group">
+      <label for="duracao">Duração</label>
+      <select id="duracao">
+        <option>3 segundos</option>
+        <option>5 segundos</option>
+        <option>10 segundos</option>
+      </select>
+    </div>
+
+    <div class="config-group">
+      <label for="qualidade">Qualidade</label>
+      <select id="qualidade">
+        <option>HD (720p)</option>
+        <option>Full HD (1080p)</option>
+        <option>4K (2160p)</option>
+      </select>
+    </div>
+
+    <div class="config-group">
+      <label for="fps">FPS</label>
+      <select id="fps">
+        <option>24 FPS</option>
+        <option>30 FPS</option>
+        <option>60 FPS</option>
+      </select>
+    </div>
+
+    <button type="button" class="button-principal" id="button-gerar-video" onclick="startLoading()">Gerar Vídeo</button>
+  </section>
+  <section id="loading" class="screen">
+    <h1>Gerando seu vídeo...</h1>
+    <h2 id="escrita-loading">A IA está trabalhando na sua criação</h2>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <span id="progress-percent">0%</span>
+    <p class="loading-hint">Isso pode levar alguns segundos...</p>
+  </section>
+
+  <section id="resultado" class="screen">
+    <h1>Vídeo Gerado!</h1>
+    <h2 id="escrita-final">Seu vídeo está pronto para assistir e compartilhar</h2>
+    <div class="video-player">
+      <img id="resultado-preview" src="" alt="Preview do vídeo">
+      <div class="video-controls">
+        <button class="btn-play" type="button">▶</button>
+      </div>
+    </div>
+    <div class="resultado-actions">
+      <button type="button" class="btn-action" onclick="navigateTo('selecionar-imagem')">↻ Novo</button>
+      <button type="button" class="btn-action">↓ Baixar</button>
+    </div>
+  </section>
+  <script src="script.js" defer></script>
 </body>
+
 </html>
