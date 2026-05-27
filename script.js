@@ -19,11 +19,11 @@ function navigateTo(screenId) {
 
   // no login esconde o header inteiro
   const header = document.querySelector("header");
-  header.style.display = screenId === "login" ? "none" : "flex";
+  header.style.display = (screenId === "login" || screenId === "cadastro") ? "none" : "flex";
   const btnVoltar = document.getElementById("btn-voltar-header");
 
   // esconde voltar no login e na tela de selecionar imagem
-  const semVoltar = ["login", "selecionar-imagem"];
+  const semVoltar = ["login", "selecionar-imagem", "cadastro"];
   btnVoltar.style.visibility = semVoltar.includes(screenId)
     ? "hidden"
     : "visible";

@@ -27,8 +27,22 @@
     <label for="password"></label>
     <input type="password" id="senha" name="password" placeholder="Senha">
     <button id="entrar" type="submit" class="button-principal" onclick="navigateTo('selecionar-imagem')">Entrar</button>
-    <a id="criar-conta">Ainda não tem conta? Crie sua conta</a>
+    <a id="criar-conta" onclick="navigateTo('cadastro')">Ainda não tem conta? Crie sua conta</a>
   </section>
+  <section id="cadastro" class="screen">
+    <h1>LIAr</h1>
+    <h2>Criar conta</h2>
+    <label for="nome-cadastro"></label>
+    <input type="text" id="nome-cadastro" name="nome" placeholder="Nome completo">
+    <label for="email-cadastro"></label>
+    <input type="email" id="email-cadastro" name="email" placeholder="E-mail">
+    <label for="senha-cadastro"></label>
+    <input type="password" id="senha-cadastro" name="password" placeholder="Senha">
+    <label for="confirmar-senha"></label>
+    <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Confirmar senha">
+    <button type="button" class="button-principal" onclick="navigateTo('selecionar-imagem')">Cadastrar</button>
+    <a id="ja-tem-conta" onclick="navigateTo('login')">Já tem conta? Entre aqui</a>
+</section>
   <section id="selecionar-imagem" class="screen">
     <h1>Selecione uma imagem</h1>
     <h2 id="escrita-imagem">Escolha a imagem que você quer transformar em vídeo</h2>
