@@ -19,7 +19,8 @@ function navigateTo(screenId) {
 
   // no login esconde o header inteiro
   const header = document.querySelector("header");
-  header.style.display = (screenId === "login" || screenId === "cadastro") ? "none" : "flex";
+  header.style.display =
+    screenId === "login" || screenId === "cadastro" ? "none" : "flex";
   const btnVoltar = document.getElementById("btn-voltar-header");
 
   // esconde voltar no login e na tela de selecionar imagem
@@ -174,6 +175,7 @@ function startLoading() {
       setTimeout(() => {
         document.getElementById("resultado-preview").src =
           document.getElementById("prompt-preview").src;
+        salvarHistorico();
         navigateTo("resultado");
       }, 500);
     }
@@ -195,4 +197,41 @@ function logout() {
     `;
   document.getElementById("button-continuar").classList.add("hidden");
   navigateTo("login");
+}
+
+// Salva no histórico quando o vídeo é gerado
+function salvarHistorico() {
+  const historico = JSON.parse(localStorage.getItem("historico") || "[]");
+  historico.unshift({
+    prompt: document.getElementById("prompt-input").value,
+    data: new Date().toLocaleString("pt-BR"),
+  });
+  if (historico.length > 20) historico.pop();
+  localStorage.setItem("historico", JSON.stringify(historico));
+}
+
+// Carrega o histórico na tela
+function carregarHistorico() {
+  const historico = JSON.parse(localStorage.getItem("historico") || "[]");
+  const lista = document.getElementById("historico-lista");
+  const vazio = document.getElementById("historico-vazio");
+
+  lista.innerHTML = "";
+
+  if (historico.length === 0) {
+    vazio.style.display = "block";
+    return;
+  }
+
+  vazio.style.display = "none";
+  historico.forEach((item) => {
+    lista.innerHTML += `
+        <div class="historico-item">
+            <div class="historico-info">
+                <p>${item.prompt}</p>
+                <span>${item.data}</span>
+            </div>
+        </div>
+    `;
+});
 }

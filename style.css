@@ -177,8 +177,8 @@ h2 {
 
 .upload-area {
   color: rgba(238, 239, 239, 0.7);
-  border: 2px dashed rgba(238, 239, 239, 0.3);
-  background-color: rgba(38, 38, 38, 0.321);
+  background: rgba(18, 18, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 14px;
   width: 600px;
   border-radius: 46px;
@@ -249,7 +249,7 @@ h2 {
     align-self: flex-start;
 }
 
-.button-principal.disabled {
+.button-principal:disabled {
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
@@ -386,4 +386,53 @@ h2 {
 .btn-action:hover {
     color:white;
     background: rgba(124, 127, 127, 0.7);
+}
+
+.historico-lista {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.historico-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: rgba(18, 18, 18, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+}
+
+.historico-item img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.historico-info {
+    flex: 1;
+    color: white;
+}
+
+.historico-info p {
+    font-size: 14px;
+    color: rgba(238, 239, 239, 0.7);
+    margin-top: 4px;
+}
+
+.historico-info span {
+    font-size: 12px;
+    color: rgba(238, 239, 239, 0.4);
+}
+
+.historico-vazio {
+    color: rgba(238, 239, 239, 0.5);
+    font-size: 14px;
+    margin-top: 32px;
 }
