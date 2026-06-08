@@ -436,3 +436,62 @@ h2 {
     font-size: 14px;
     margin-top: 32px;
 }
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-box {
+  background: rgba(20, 20, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 420px;
+  width: 90%;
+  animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.modal-icon {
+  font-size: 40px;
+}
+
+.modal-mensagem {
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.modal-btn {
+  all: unset;
+  margin-top: 8px;
+  padding: 12px 48px;
+  background: white;
+  color: rgba(18, 18, 18, 1);
+  border-radius: 46px;
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.modal-btn:hover {
+  background: rgba(124, 127, 127, 0.7);
+  color: white;
+}
