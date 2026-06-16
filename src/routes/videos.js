@@ -31,13 +31,13 @@ const QUALIDADE_MAP = {
 };
 
 // ─── Helper: faz polling até o vídeo ficar pronto ───────────────────────────
-// IMPORTANTE: na Vercel (plano gratuito), funções serverless têm no
-// máximo 60s de execução. Por isso o timeout aqui é menor que o do
-// ambiente local. Se passar disso, o job continua rodando do lado da
-// Magic Hour, mas a função expira antes de conseguir devolver a URL —
-// nesse caso o usuário vê um erro e precisa conferir o vídeo depois
-// (ideal seria consultar o histórico, que vai mostrar "pending").
-async function aguardarVideo(jobId, timeoutMs = 45000) {
+// IMPORTANTE: na Vercel, funções serverless no plano Hobby têm 60s de
+// limite por padrão. Com o "Fluid Compute" ativado (gratuito, só precisa
+// ligar nas configurações do projeto), esse limite sobe para até 300s,
+// que é o valor configurado em maxDuration no vercel.json. Por isso o
+// timeout aqui também foi ajustado para 280s (um pouco abaixo do limite,
+// pra função ter tempo de responder antes de a Vercel matá-la à força).
+async function aguardarVideo(jobId, timeoutMs = 280000) {
   const inicio = Date.now();
   const headers = {
     Authorization: `Bearer ${process.env.MAGICHOUR_KEY}`,
