@@ -194,32 +194,23 @@ document.getElementById('entrar').addEventListener('click', async () => {
 const uploadArea = document.getElementById('uploadArea');
 const fileInput  = document.getElementById('fileInput');
 
-// Volta a tela de seleção de imagem para o estado vazio inicial
+// Volta a tela de seleção de imagem para o estado vazio inicial.
+// O <input> nunca é destruído (está fora do uploadArea no HTML),
+// então resetar o .value é suficiente para poder selecionar o
+// mesmo arquivo de novo — sem isso o navegador ignora o "change"
+// quando o arquivo escolhido é idêntico ao anterior.
 function resetarUpload() {
   selectedFile = null;
-  document.getElementById('uploadArea').innerHTML = `
+  fileInput.value = '';
+  uploadArea.innerHTML = `
     <span class="upload-icon">⬆</span>
     <p class="upload-text">Clique para fazer upload</p>
     <p class="upload-hint">PNG, JPG até 10MB</p>
-    <input type="file" id="fileInput" accept="image/png, image/jpeg" hidden>
   `;
   document.getElementById('button-continuar').classList.add('hidden');
   document.getElementById('button-remover-imagem').classList.add('hidden');
   document.getElementById('prompt-input').value = '';
   document.getElementById('char-count').textContent = '0/500 caracteres';
-
-  // Reconecta os eventos no novo input/área que acabou de ser recriada
-  const novaArea  = document.getElementById('uploadArea');
-  const novoInput = document.getElementById('fileInput');
-  novaArea.addEventListener('click', () => novoInput.click());
-  novaArea.addEventListener('dragover', (e) => { e.preventDefault(); novaArea.classList.add('dragover'); });
-  novaArea.addEventListener('dragleave', () => novaArea.classList.remove('dragover'));
-  novaArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    novaArea.classList.remove('dragover');
-    handleFile(e.dataTransfer.files[0]);
-  });
-  novoInput.addEventListener('change', () => handleFile(novoInput.files[0]));
 }
 
 uploadArea.addEventListener('click', () => fileInput.click());
