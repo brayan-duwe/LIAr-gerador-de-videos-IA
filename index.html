@@ -66,6 +66,7 @@
       <p class="upload-hint">PNG, JPG até 10MB</p>
       <input type="file" id="fileInput" accept="image/png, image/jpeg" hidden>
     </div>
+    <button id="button-remover-imagem" type="button" class="btn-remover hidden">✕ Remover imagem</button>
     <button id="button-continuar" type="button" class="button-principal hidden"
       onclick="navigateTo('prompt')">Continuar</button>
   </section>
@@ -137,7 +138,7 @@
       </div>
     </div>
     <div class="resultado-actions">
-      <button type="button" class="btn-action" onclick="navigateTo('selecionar-imagem')">↻ Novo</button>
+      <button type="button" class="btn-action" onclick="resetarUpload(); navigateTo('selecionar-imagem')">↻ Novo</button>
       <button type="button" class="btn-action" id="btn-baixar">↓ Baixar</button>
     </div>
   </section>

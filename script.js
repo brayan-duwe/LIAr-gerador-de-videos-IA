@@ -90,6 +90,18 @@ function navigateTo(screenId) {
 }
 
 document.getElementById('btn-voltar-header').addEventListener('click', () => {
+  const current = document.querySelector('.screen.active');
+
+  // Da tela de loading ou resultado, "voltar" sempre joga pra
+  // seleção de imagem já resetada — não faz sentido voltar pra
+  // uma barra de progresso travada ou reaproveitar a imagem antiga.
+  if (current && (current.id === 'loading' || current.id === 'resultado')) {
+    screenHistory.length = 0;
+    resetarUpload();
+    navigateTo('selecionar-imagem');
+    return;
+  }
+
   if (screenHistory.length > 0) {
     const previous = screenHistory.pop();
     document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
@@ -182,6 +194,34 @@ document.getElementById('entrar').addEventListener('click', async () => {
 const uploadArea = document.getElementById('uploadArea');
 const fileInput  = document.getElementById('fileInput');
 
+// Volta a tela de seleção de imagem para o estado vazio inicial
+function resetarUpload() {
+  selectedFile = null;
+  document.getElementById('uploadArea').innerHTML = `
+    <span class="upload-icon">⬆</span>
+    <p class="upload-text">Clique para fazer upload</p>
+    <p class="upload-hint">PNG, JPG até 10MB</p>
+    <input type="file" id="fileInput" accept="image/png, image/jpeg" hidden>
+  `;
+  document.getElementById('button-continuar').classList.add('hidden');
+  document.getElementById('button-remover-imagem').classList.add('hidden');
+  document.getElementById('prompt-input').value = '';
+  document.getElementById('char-count').textContent = '0/500 caracteres';
+
+  // Reconecta os eventos no novo input/área que acabou de ser recriada
+  const novaArea  = document.getElementById('uploadArea');
+  const novoInput = document.getElementById('fileInput');
+  novaArea.addEventListener('click', () => novoInput.click());
+  novaArea.addEventListener('dragover', (e) => { e.preventDefault(); novaArea.classList.add('dragover'); });
+  novaArea.addEventListener('dragleave', () => novaArea.classList.remove('dragover'));
+  novaArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    novaArea.classList.remove('dragover');
+    handleFile(e.dataTransfer.files[0]);
+  });
+  novoInput.addEventListener('change', () => handleFile(novoInput.files[0]));
+}
+
 uploadArea.addEventListener('click', () => fileInput.click());
 uploadArea.addEventListener('dragover', (e) => {
   e.preventDefault();
@@ -195,6 +235,8 @@ uploadArea.addEventListener('drop', (e) => {
 });
 fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
 
+document.getElementById('button-remover-imagem').addEventListener('click', resetarUpload);
+
 function handleFile(file) {
   if (!file) return;
   selectedFile = file;
@@ -203,6 +245,7 @@ function handleFile(file) {
     uploadArea.innerHTML = `<img src="${e.target.result}" id="preview-img">`;
     document.getElementById('prompt-preview').src = e.target.result;
     document.getElementById('button-continuar').classList.remove('hidden');
+    document.getElementById('button-remover-imagem').classList.remove('hidden');
   };
   reader.readAsDataURL(file);
 }
@@ -344,20 +387,8 @@ async function logout() {
 
   accessToken = null;
   localStorage.removeItem('liar_token');
-  selectedFile = null;
   screenHistory.length = 0;
-
-  document.getElementById('prompt-input').value = '';
-  document.getElementById('char-count').textContent = '0/500 caracteres';
-  document.getElementById('uploadArea').innerHTML = `
-    <span class="upload-icon">⬆</span>
-    <p class="upload-text">Clique para fazer upload</p>
-    <p class="upload-hint">PNG, JPG até 10MB</p>
-    <input type="file" id="fileInput" accept="image/png, image/jpeg" hidden>
-  `;
-  document.getElementById('button-continuar').classList.add('hidden');
-  const newInput = document.getElementById('fileInput');
-  if (newInput) newInput.addEventListener('change', () => handleFile(newInput.files[0]));
+  resetarUpload();
 
   navigateTo('login');
 }
