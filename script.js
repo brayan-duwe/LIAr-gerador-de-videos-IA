@@ -2,7 +2,11 @@
 //  LIAr — script.js
 // =============================================
 
-const API_BASE = 'http://localhost:3001/api';
+// Em produção (Vercel), front e back ficam no mesmo domínio, então
+// usamos caminho relativo. Localmente, aponta pro servidor na porta 3001.
+const API_BASE = window.location.hostname === 'localhost'
+  ? 'http://localhost:3001/api'
+  : '/api';
 
 // ---- Estado global ----
 let accessToken = localStorage.getItem('liar_token') || null;

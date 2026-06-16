@@ -31,7 +31,13 @@ const QUALIDADE_MAP = {
 };
 
 // ─── Helper: faz polling até o vídeo ficar pronto ───────────────────────────
-async function aguardarVideo(jobId, timeoutMs = 300000) {
+// IMPORTANTE: na Vercel (plano gratuito), funções serverless têm no
+// máximo 60s de execução. Por isso o timeout aqui é menor que o do
+// ambiente local. Se passar disso, o job continua rodando do lado da
+// Magic Hour, mas a função expira antes de conseguir devolver a URL —
+// nesse caso o usuário vê um erro e precisa conferir o vídeo depois
+// (ideal seria consultar o histórico, que vai mostrar "pending").
+async function aguardarVideo(jobId, timeoutMs = 45000) {
   const inicio = Date.now();
   const headers = {
     Authorization: `Bearer ${process.env.MAGICHOUR_KEY}`,
@@ -39,7 +45,7 @@ async function aguardarVideo(jobId, timeoutMs = 300000) {
   };
 
   while (Date.now() - inicio < timeoutMs) {
-    await new Promise(r => setTimeout(r, 5000)); // aguarda 5s entre checks
+    await new Promise(r => setTimeout(r, 3000)); // aguarda 3s entre checks
 
     const res = await fetch(`${MAGICHOUR_API}/v1/video-projects/${jobId}`, { headers });
     const data = await res.json();
@@ -58,7 +64,7 @@ async function aguardarVideo(jobId, timeoutMs = 300000) {
     // status: queued | rendering → continua polling
   }
 
-  throw new Error('Timeout: o vídeo demorou mais de 5 minutos para ser gerado.');
+  throw new Error('O vídeo está demorando mais que o esperado. Confira o Histórico em alguns instantes — ele pode aparecer lá quando terminar.');
 }
 
 // ─── POST /api/videos/gerar ──────────────────────────────────────────────────

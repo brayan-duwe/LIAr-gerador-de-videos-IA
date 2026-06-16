@@ -32,8 +32,16 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message || 'Erro interno do servidor.' });
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ LIAr Backend rodando em http://localhost:${PORT}`);
-  console.log(`   Supabase URL:    ${process.env.SUPABASE_URL     ? '✓ configurado' : '✗ NÃO configurado'}`);
-  console.log(`   Magic Hour Key:  ${process.env.MAGICHOUR_KEY    ? '✓ configurado' : '✗ NÃO configurado'}`);
-});
+// Na Vercel, o servidor não fica "rodando" — cada request vira uma função
+// serverless isolada. Por isso só chamamos app.listen() quando o projeto
+// roda localmente (npm start). Em produção na Vercel, exportamos o `app`
+// e o arquivo /api/index.js entrega ele para a plataforma.
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`✅ LIAr Backend rodando em http://localhost:${PORT}`);
+    console.log(`   Supabase URL:    ${process.env.SUPABASE_URL     ? '✓ configurado' : '✗ NÃO configurado'}`);
+    console.log(`   Magic Hour Key:  ${process.env.MAGICHOUR_KEY    ? '✓ configurado' : '✗ NÃO configurado'}`);
+  });
+}
+
+module.exports = app;
