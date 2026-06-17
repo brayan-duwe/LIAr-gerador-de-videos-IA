@@ -127,6 +127,32 @@ function setButtonLoading(btn, loading) {
   }
 }
 
+// ---- Aviso ético pós-login ----
+function mostrarAvisoEtico(onConfirm) {
+  document.getElementById('aviso-etico-overlay').classList.remove('hidden');
+  document.getElementById('btn-aviso-etico').addEventListener('click', () => {
+    document.getElementById('aviso-etico-overlay').classList.add('hidden');
+    onConfirm();
+  }, { once: true });
+}
+
+// ---- Termos de Uso ----
+function abrirTermos() {
+  document.getElementById('termos-overlay').classList.remove('hidden');
+}
+
+function fecharTermos() {
+  document.getElementById('termos-overlay').classList.add('hidden');
+}
+
+document.getElementById('termos-overlay').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) fecharTermos();
+});
+
+document.getElementById('aceitar-termos').addEventListener('change', (e) => {
+  document.getElementById('btn-cadastrar').disabled = !e.target.checked;
+});
+
 // ---- Auth: Cadastro ----
 document.getElementById('btn-cadastrar').addEventListener('click', async () => {
   const nome          = document.getElementById('nome-cadastro').value.trim();
@@ -182,7 +208,7 @@ document.getElementById('entrar').addEventListener('click', async () => {
     // Só navega se o login foi bem-sucedido
     accessToken = data.access_token;
     localStorage.setItem('liar_token', accessToken);
-    navigateTo('selecionar-imagem');
+    mostrarAvisoEtico(() => navigateTo('selecionar-imagem'));
   } catch (err) {
     showModal(err.message);  // fica na tela de login
   } finally {

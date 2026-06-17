@@ -20,6 +20,23 @@
 <body>
   <canvas id="bg-canvas"></canvas>
 
+  <!-- ===== MODAL DE AVISO ÉTICO ===== -->
+  <div id="aviso-etico-overlay" class="modal-overlay hidden">
+    <div class="modal-box aviso-etico-box">
+      <span class="aviso-etico-icone">⚠️</span>
+      <h3 class="aviso-etico-titulo">Use com responsabilidade</h3>
+      <p class="aviso-etico-texto">O LIAr utiliza inteligência artificial para criar vídeos. Lembre-se sempre:</p>
+      <ul class="aviso-etico-lista">
+        <li>Não crie conteúdo que difame ou prejudique a imagem de pessoas reais</li>
+        <li>Não produza deepfakes ou vídeos enganosos</li>
+        <li>Não gere material violento, discriminatório ou de ódio</li>
+        <li>Respeite a privacidade e os direitos de terceiros</li>
+      </ul>
+      <p class="aviso-etico-rodape">O uso indevido pode resultar na suspensão da sua conta.</p>
+      <button class="modal-btn" id="btn-aviso-etico">Entendido, vamos criar!</button>
+    </div>
+  </div>
+
   <!-- ===== MODAL ===== -->
   <div id="modal-overlay" class="modal-overlay hidden">
     <div class="modal-box">
@@ -52,10 +69,59 @@
     <input type="password" id="senha-cadastro" name="password" placeholder="Senha">
     <label for="confirmar-senha"></label>
     <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Confirmar senha">
+    <div class="termos-check">
+      <input type="checkbox" id="aceitar-termos">
+      <label for="aceitar-termos">
+        Li e aceito os <span class="link-termos" onclick="abrirTermos()">Termos de Uso e Ética</span>
+      </label>
+    </div>
     <!-- SEM onclick aqui — o script cuida da navegação só após sucesso -->
-    <button type="button" class="button-principal" id="btn-cadastrar">Cadastrar</button>
+    <button type="button" class="button-principal" id="btn-cadastrar" disabled>Cadastrar</button>
     <a id="ja-tem-conta" onclick="navigateTo('login')">Já tem conta? Entre aqui</a>
   </section>
+
+  <!-- ===== MODAL DE TERMOS ===== -->
+  <div id="termos-overlay" class="modal-overlay hidden">
+    <div class="modal-box termos-box">
+      <h3 class="termos-titulo">Termos de Uso e Ética</h3>
+      <div class="termos-corpo">
+        <h4>1. Aceitação dos Termos</h4>
+        <p>Ao criar uma conta no LIAr, você declara ter lido, compreendido e concordado com estes Termos de Uso e Ética. Caso não concorde com qualquer disposição, não utilize o serviço.</p>
+
+        <h4>2. Descrição do Serviço</h4>
+        <p>O LIAr é uma plataforma de geração de vídeos por inteligência artificial a partir de imagens e descrições textuais. O serviço é fornecido "no estado em que se encontra" e pode estar sujeito a alterações sem aviso prévio.</p>
+
+        <h4>3. Uso Responsável e Ético</h4>
+        <p>O usuário compromete-se a utilizar o LIAr de forma ética e responsável, sendo vedado:</p>
+        <ul>
+          <li>Criar conteúdo que represente pessoas reais sem seu consentimento explícito (deepfakes);</li>
+          <li>Gerar material de cunho sexual, violento, discriminatório ou que incite ao ódio;</li>
+          <li>Produzir desinformação, notícias falsas ou conteúdo enganoso;</li>
+          <li>Violar direitos autorais, marcas registradas ou propriedade intelectual de terceiros;</li>
+          <li>Usar o serviço para fins ilegais ou em desacordo com a legislação brasileira vigente.</li>
+        </ul>
+
+        <h4>4. Conteúdo Gerado</h4>
+        <p>O usuário é o único responsável pelo conteúdo das imagens enviadas e das descrições fornecidas. O LIAr reserva-se o direito de remover conteúdo que viole estes termos e de suspender contas infratoras sem aviso prévio.</p>
+
+        <h4>5. Privacidade e Dados</h4>
+        <p>As imagens enviadas e os vídeos gerados são armazenados exclusivamente para fins de funcionamento do serviço e histórico do usuário. Não compartilhamos seus dados com terceiros sem seu consentimento, exceto quando exigido por lei.</p>
+
+        <h4>6. Inteligência Artificial</h4>
+        <p>Os vídeos são gerados por modelos de IA e podem conter imperfeições ou resultados inesperados. O LIAr não garante que os resultados atendam às expectativas do usuário. O uso da tecnologia deve respeitar os princípios de transparência e responsabilidade no uso de IA.</p>
+
+        <h4>7. Limitação de Responsabilidade</h4>
+        <p>O LIAr não se responsabiliza por danos diretos ou indiretos decorrentes do uso ou impossibilidade de uso do serviço. A plataforma pode ficar indisponível por razões técnicas sem que isso gere qualquer direito de indenização ao usuário.</p>
+
+        <h4>8. Alterações nos Termos</h4>
+        <p>Estes termos podem ser atualizados periodicamente. A continuidade do uso do serviço após publicação de novas versões implica na aceitação das alterações.</p>
+
+        <h4>9. Contato</h4>
+        <p>Em caso de dúvidas sobre estes termos, entre em contato pelo e-mail de suporte disponível na plataforma.</p>
+      </div>
+      <button class="modal-btn" onclick="fecharTermos()">Fechar</button>
+    </div>
+  </div>
 
   <section id="selecionar-imagem" class="screen">
     <h1>Selecione uma imagem</h1>
