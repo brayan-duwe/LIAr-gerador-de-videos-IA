@@ -707,3 +707,145 @@ h2 {
   color: rgba(248, 113, 113, 1);
   text-decoration: underline;
 }
+
+/* ===== RESPONSIVIDADE MOBILE ===== */
+@media (max-width: 640px) {
+
+  /* Permite scroll quando o conteúdo não cabe na tela */
+  body {
+    overflow-y: auto;
+  }
+
+  /* Mantém centralização; padding simétrico garante respiro ao scrollar */
+  .screen.active {
+    justify-content: center;
+    min-height: 100dvh;
+    padding: 28px 20px;
+    gap: 10px;
+  }
+
+  h2 {
+    font-size: 17px;
+    text-align: center;
+  }
+
+  /* ---- Header ---- */
+  header {
+    padding: 14px 20px;
+  }
+
+  .btn-header {
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+
+  /* ---- Login / Cadastro ---- */
+  #login input,
+  #login button,
+  #cadastro input:not([type="checkbox"]),
+  #cadastro button {
+    width: 90vw;
+  }
+
+  #login input,
+  #cadastro input:not([type="checkbox"]) {
+    width: 90vw;
+  }
+
+  .button-principal {
+    width: 90vw;
+  }
+
+  .termos-check {
+    width: 90vw;
+  }
+
+  /* ---- Upload ---- */
+  .upload-area {
+    width: 90vw;
+    padding: 40px 20px;
+    border-radius: 24px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  .upload-icon {
+    font-size: 40px;
+  }
+
+  #button-continuar {
+    width: 90vw;
+  }
+
+  /* ---- Prompt ---- */
+  #prompt-preview {
+    max-width: 90vw;
+    max-height: 200px;
+    border-radius: 20px;
+  }
+
+  .textarea-wrapper {
+    width: 90vw;
+  }
+
+  #button-config-video {
+    width: 90vw;
+  }
+
+  /* ---- Configurações de vídeo ---- */
+  .config-group {
+    width: 90vw;
+  }
+
+  #button-gerar-video {
+    width: 90vw;
+  }
+
+  /* ---- Loading ---- */
+  .progress-bar {
+    width: 85vw;
+  }
+
+  /* ---- Resultado ---- */
+  .video-player {
+    width: 90vw;
+  }
+
+  .resultado-actions {
+    flex-direction: column;
+    width: 90vw;
+    gap: 12px;
+  }
+
+  .btn-action {
+    width: 100%;
+    text-align: center;
+    padding: 16px 0;
+    box-sizing: border-box;
+  }
+
+  /* ---- Histórico ---- */
+  .historico-lista {
+    width: 90vw;
+    max-height: none;
+  }
+
+  /* ---- Modais ---- */
+  .modal-box {
+    padding: 32px 22px;
+  }
+
+  .aviso-etico-box {
+    padding: 28px 20px;
+  }
+
+  .termos-box {
+    padding: 24px 18px;
+    max-height: 92vh;
+  }
+
+  .termos-corpo {
+    font-size: 13px;
+    max-height: calc(92vh - 180px);
+  }
+}
